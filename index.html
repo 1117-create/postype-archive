@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* 모던 파스텔 팔레트 — 아이보리 베이스 + 블러시/세이지/라벤더 액센트 */
     --bg: #f7f2ec;
     --bg-soft: #efe7dd;
     --ink: #2b2724;
@@ -25,6 +24,7 @@
     --butter: #f0d9a8;
     --butter-deep: #c49a56;
     --accent: #c98e88;
+    --danger: #b85c5c;
 
     --serif: 'Fraunces', 'Gowun Batang', serif;
     --korean-serif: 'Gowun Batang', 'Fraunces', serif;
@@ -34,10 +34,10 @@
     --radius-sm: 8px;
     --shadow-soft: 0 1px 2px rgba(43, 39, 36, 0.04), 0 4px 16px rgba(43, 39, 36, 0.04);
     --shadow-hover: 0 2px 4px rgba(43, 39, 36, 0.06), 0 12px 32px rgba(43, 39, 36, 0.08);
+    --shadow-modal: 0 20px 60px rgba(43, 39, 36, 0.2);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -55,13 +55,7 @@
     background-attachment: fixed;
   }
 
-  /* ━━━ HEADER ━━━ */
-  .header {
-    padding: 64px 48px 40px;
-    max-width: 1280px;
-    margin: 0 auto;
-    position: relative;
-  }
+  .header { padding: 64px 48px 40px; max-width: 1280px; margin: 0 auto; }
 
   .header-top {
     display: flex;
@@ -78,7 +72,6 @@
     font-size: 42px;
     letter-spacing: -0.02em;
     font-style: italic;
-    color: var(--ink);
   }
 
   .logo-sub {
@@ -90,6 +83,13 @@
     display: block;
     font-style: normal;
     font-weight: 400;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
   }
 
   .stats {
@@ -110,6 +110,54 @@
     font-style: italic;
   }
 
+  .auth-area { display: flex; align-items: center; gap: 10px; }
+
+  .btn {
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn:hover { background: rgba(255, 255, 255, 0.9); border-color: var(--ink-muted); }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .btn-primary:hover { background: #1a1816; color: var(--bg); }
+
+  .user-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px 6px 6px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .user-badge img { width: 24px; height: 24px; border-radius: 50%; }
+
+  .admin-tag {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 11px;
+    color: var(--blush-deep);
+    margin-left: 4px;
+  }
+
   .tagline {
     font-family: var(--korean-serif);
     font-size: 15px;
@@ -121,26 +169,15 @@
     margin-top: 12px;
   }
 
-  /* ━━━ CONTROLS ━━━ */
   .controls {
     max-width: 1280px;
-    margin: 0 auto;
+    margin: 0 auto 32px;
     padding: 0 48px;
-    margin-bottom: 32px;
   }
 
-  .search-row {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-  }
+  .search-row { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
 
-  .search-box {
-    flex: 1;
-    min-width: 260px;
-    position: relative;
-  }
+  .search-box { flex: 1; min-width: 260px; position: relative; }
 
   .search-box input {
     width: 100%;
@@ -190,10 +227,7 @@
     background-position: right 14px center;
   }
 
-  /* 필터 섹션 */
-  .filter-section {
-    margin-bottom: 16px;
-  }
+  .filter-section { margin-bottom: 16px; }
 
   .filter-label {
     font-family: var(--serif);
@@ -206,11 +240,7 @@
     display: block;
   }
 
-  .chip-group {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
+  .chip-group { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .chip {
     padding: 7px 14px;
@@ -219,30 +249,19 @@
     background: rgba(255, 255, 255, 0.5);
     font-family: var(--sans);
     font-size: 12px;
-    font-weight: 400;
     color: var(--ink-soft);
     cursor: pointer;
     transition: all 0.2s;
     user-select: none;
   }
 
-  .chip:hover {
-    border-color: var(--ink-muted);
-    color: var(--ink);
-  }
-
-  .chip.active {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: var(--bg);
-  }
-
+  .chip:hover { border-color: var(--ink-muted); color: var(--ink); }
+  .chip.active { background: var(--ink); border-color: var(--ink); color: var(--bg); }
   .chip[data-status="completed"].active { background: var(--sage-deep); border-color: var(--sage-deep); }
   .chip[data-status="ongoing"].active { background: var(--butter-deep); border-color: var(--butter-deep); }
   .chip[data-status="hiatus"].active { background: var(--lavender-deep); border-color: var(--lavender-deep); }
   .chip[data-status="bookmarked"].active { background: var(--blush-deep); border-color: var(--blush-deep); }
 
-  /* 활성 필터 요약 바 */
   .active-filters {
     display: flex;
     align-items: center;
@@ -268,15 +287,9 @@
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-
   .clear-btn:hover { color: var(--ink); }
 
-  /* ━━━ GRID ━━━ */
-  .grid-wrap {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 48px 80px;
-  }
+  .grid-wrap { max-width: 1280px; margin: 0 auto; padding: 0 48px 80px; }
 
   .grid {
     display: grid;
@@ -308,12 +321,9 @@
   .card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 3px;
     background: var(--line);
-    transition: background 0.3s;
   }
 
   .card[data-status="completed"]::before { background: linear-gradient(90deg, var(--sage), var(--sage-deep)); }
@@ -346,39 +356,36 @@
     transition: background-size 0.3s;
     padding-bottom: 2px;
   }
+  .card-title a:hover { background-size: 100% 1px; }
 
-  .card-title a:hover {
-    background-size: 100% 1px;
-  }
+  .card-actions { display: flex; gap: 4px; flex-shrink: 0; }
 
-  .bookmark-btn {
+  .icon-btn {
     background: none;
     border: none;
     cursor: pointer;
     padding: 4px;
     color: var(--ink-muted);
     transition: all 0.2s;
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
   }
 
-  .bookmark-btn:hover { color: var(--blush-deep); transform: scale(1.1); }
-
-  .bookmark-btn.active { color: var(--blush-deep); }
-
-  .bookmark-btn svg { display: block; }
+  .icon-btn:hover { color: var(--ink); background: rgba(0,0,0,0.05); transform: scale(1.1); }
+  .icon-btn.bookmark-btn.active { color: var(--blush-deep); }
+  .icon-btn.bookmark-btn:hover { color: var(--blush-deep); }
+  .icon-btn.delete-btn:hover { color: var(--danger); }
+  .icon-btn svg { display: block; }
 
   .card-author {
     font-family: var(--serif);
     font-size: 13px;
     font-style: italic;
     color: var(--ink-soft);
-    letter-spacing: 0.02em;
   }
-
-  .card-author::before {
-    content: 'by ';
-    color: var(--ink-muted);
-  }
+  .card-author::before { content: 'by '; color: var(--ink-muted); }
 
   .card-status {
     display: inline-flex;
@@ -418,32 +425,42 @@
     border-radius: 100px;
     background: var(--bg-soft);
     color: var(--ink-soft);
-    font-weight: 400;
-    letter-spacing: 0.02em;
     border: 1px solid transparent;
     transition: all 0.15s;
     cursor: pointer;
   }
+  .tag:hover { border-color: var(--ink-muted); color: var(--ink); }
+  .tag.genre { background: rgba(232, 196, 192, 0.3); color: var(--blush-deep); }
 
-  .tag:hover {
-    border-color: var(--ink-muted);
-    color: var(--ink);
+  .fab {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(43, 39, 36, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 100;
   }
+  .fab:hover { transform: scale(1.05); box-shadow: 0 12px 32px rgba(43, 39, 36, 0.35); }
+  .fab svg { width: 24px; height: 24px; }
 
-  .tag.genre {
-    background: rgba(232, 196, 192, 0.3);
-    color: var(--blush-deep);
-  }
-
-  /* ━━━ EMPTY STATE ━━━ */
-  .empty-state {
+  .empty-state, .loading-state {
     grid-column: 1 / -1;
     text-align: center;
     padding: 80px 40px;
     color: var(--ink-soft);
   }
 
-  .empty-state h3 {
+  .empty-state h3, .loading-state h3 {
     font-family: var(--serif);
     font-style: italic;
     font-size: 28px;
@@ -452,12 +469,120 @@
     margin-bottom: 8px;
   }
 
-  .empty-state p {
+  .empty-state p, .loading-state p {
     font-family: var(--korean-serif);
     font-size: 14px;
   }
 
-  /* ━━━ FOOTER ━━━ */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(43, 39, 36, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease-out;
+  }
+  .modal-backdrop.show { display: flex; }
+
+  .modal {
+    background: var(--bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-modal);
+    max-width: 560px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 36px;
+    animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+  @keyframes slideUp { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
+
+  .modal h2 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 28px;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+
+  .form-group { margin-bottom: 18px; }
+
+  .form-label {
+    display: block;
+    font-family: var(--serif);
+    font-size: 11px;
+    font-style: italic;
+    color: var(--ink-soft);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.6);
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--ink);
+    transition: all 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--blush-deep);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(232, 196, 192, 0.3);
+  }
+
+  .form-hint {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    box-shadow: var(--shadow-modal);
+    z-index: 300;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
   .footer {
     max-width: 1280px;
     margin: 0 auto;
@@ -467,11 +592,9 @@
     color: var(--ink-muted);
     font-family: var(--serif);
     font-style: italic;
-    letter-spacing: 0.05em;
     text-align: center;
   }
 
-  /* ━━━ ORNAMENT ━━━ */
   .ornament {
     display: flex;
     align-items: center;
@@ -481,30 +604,15 @@
     color: var(--blush-deep);
   }
 
-  .ornament-line {
-    width: 40px;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.4;
-  }
+  .ornament-line { width: 40px; height: 1px; background: currentColor; opacity: 0.4; }
+  .ornament-star { font-family: var(--serif); font-style: italic; font-size: 16px; }
 
-  .ornament-star {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 16px;
-  }
-
-  /* ━━━ FADE IN ANIMATION ━━━ */
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
+  .card { animation: fadeInUp 0.4s ease-out backwards; }
 
-  .card {
-    animation: fadeInUp 0.4s ease-out backwards;
-  }
-
-  /* ━━━ RESPONSIVE ━━━ */
   @media (max-width: 768px) {
     .header { padding: 40px 24px 28px; }
     .controls { padding: 0 24px; }
@@ -513,6 +621,9 @@
     .logo { font-size: 32px; }
     .stats { gap: 16px; font-size: 11px; }
     .grid { grid-template-columns: 1fr; gap: 16px; }
+    .modal { padding: 24px; }
+    .form-row { grid-template-columns: 1fr; }
+    .fab { bottom: 20px; right: 20px; }
   }
 </style>
 </head>
@@ -523,10 +634,13 @@
     <div>
       <div class="logo">Bibliothèque<span class="logo-sub">서 재 · 포 스 타 입 아 카 이 브</span></div>
     </div>
-    <div class="stats">
-      <span><strong id="stat-total">0</strong>편</span>
-      <span><strong id="stat-completed">0</strong>완결</span>
-      <span><strong id="stat-bookmarked">0</strong>찜</span>
+    <div class="header-right">
+      <div class="stats">
+        <span><strong id="stat-total">0</strong>편</span>
+        <span><strong id="stat-completed">0</strong>완결</span>
+        <span><strong id="stat-bookmarked">0</strong>찜</span>
+      </div>
+      <div class="auth-area" id="auth-area"></div>
     </div>
   </div>
   <p class="tagline">
@@ -574,8 +688,63 @@
 </section>
 
 <main class="grid-wrap">
-  <div class="grid" id="grid"></div>
+  <div class="grid" id="grid">
+    <div class="loading-state">
+      <h3>Loading...</h3>
+      <p>서재를 여는 중이에요</p>
+    </div>
+  </div>
 </main>
+
+<button class="fab" id="fab" style="display:none" aria-label="추천 추가">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="5" x2="12" y2="19"/>
+    <line x1="5" y1="12" x2="19" y2="12"/>
+  </svg>
+</button>
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <h2 id="modal-title">새 추천 추가</h2>
+    <form id="rec-form">
+      <div class="form-group">
+        <label class="form-label">작품명 *</label>
+        <input type="text" id="f-title" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">작가명 *</label>
+        <input type="text" id="f-author" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">포스타입 링크 *</label>
+        <input type="url" id="f-url" required placeholder="https://...postype.com/...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">장르 *</label>
+          <input type="text" id="f-genre" required placeholder="BL / GL / 일반 등">
+        </div>
+        <div class="form-group">
+          <label class="form-label">상태 *</label>
+          <select id="f-status" required>
+            <option value="completed">완결</option>
+            <option value="ongoing">연재중</option>
+            <option value="hiatus">휴재</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">태그</label>
+        <input type="text" id="f-tags" placeholder="오피스, 옴버, 먼저반한 (쉼표로 구분)">
+        <div class="form-hint">쉼표(,)로 구분해서 여러 개 입력할 수 있어요</div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn" id="cancel-btn">취소</button>
+        <button type="submit" class="btn btn-primary" id="submit-btn">저장</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <footer class="footer">
   <div class="ornament">
@@ -586,85 +755,54 @@
   curated with care &nbsp;·&nbsp; 2026
 </footer>
 
-<script>
-/* ═══════════════════════════════════════════════════════
-   ▣ 추천 데이터 — 여기를 수정하면 사이트에 바로 반영됩니다
-   ═══════════════════════════════════════════════════════
+<div class="toast" id="toast"></div>
 
-   각 항목 필드:
-   - id:       고유 번호 (중복 X)
-   - title:    작품명
-   - author:   작가명
-   - url:      포스타입 링크
-   - genre:    주요 장르 (하나)
-   - tags:     자유 태그 (배열)
-   - status:   "completed" | "ongoing" | "hiatus"
-   - addedAt:  추가한 날짜 (YYYY-MM-DD) — 정렬용
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, orderBy, query
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCEcGgRtlDkge4SwFn33V0MmSBVJwXOgXY",
+  authDomain: "postype-archive.firebaseapp.com",
+  projectId: "postype-archive",
+  storageBucket: "postype-archive.firebasestorage.app",
+  messagingSenderId: "108110485819",
+  appId: "1:108110485819:web:b921a4388bd02f2bc07f1e",
+  measurementId: "G-1KJLQKVMLM"
+};
+
+/* ━━━ 관리자 이메일 목록 ━━━
+   여기 적힌 이메일로 로그인한 사람만 추가·수정·삭제 가능.
+   나중에 지인 추가하려면 아래 배열에 이메일 줄 하나 추가하면 돼요.
+   예: "friend@gmail.com",
 */
-const RECOMMENDATIONS = [
-  {
-    id: 1,
-    title: "샘플 작품 제목 1",
-    author: "작가A",
-    url: "https://www.postype.com/",
-    genre: "BL",
-    tags: ["오피스", "옴버", "먼저반한", "대형견공"],
-    status: "completed",
-    addedAt: "2026-04-10"
-  },
-  {
-    id: 2,
-    title: "샘플 작품 제목 2 — 긴 제목의 예시입니다",
-    author: "작가B",
-    url: "https://www.postype.com/",
-    genre: "BL",
-    tags: ["판타지", "알파×오메가", "임신"],
-    status: "ongoing",
-    addedAt: "2026-04-08"
-  },
-  {
-    id: 3,
-    title: "샘플 작품 제목 3",
-    author: "작가C",
-    url: "https://www.postype.com/",
-    genre: "BL",
-    tags: ["현판", "회귀", "집착공"],
-    status: "ongoing",
-    addedAt: "2026-03-28"
-  },
-  {
-    id: 4,
-    title: "샘플 작품 제목 4",
-    author: "작가D",
-    url: "https://www.postype.com/",
-    genre: "GL",
-    tags: ["학원물", "첫사랑"],
-    status: "completed",
-    addedAt: "2026-03-15"
-  },
-  {
-    id: 5,
-    title: "샘플 작품 제목 5",
-    author: "작가E",
-    url: "https://www.postype.com/",
-    genre: "BL",
-    tags: ["시대물", "조선", "느림"],
-    status: "hiatus",
-    addedAt: "2026-02-20"
-  },
-  {
-    id: 6,
-    title: "샘플 작품 제목 6",
-    author: "작가F",
-    url: "https://www.postype.com/",
-    genre: "일반",
-    tags: ["에세이", "일상"],
-    status: "ongoing",
-    addedAt: "2026-02-01"
-  }
+const ADMIN_EMAILS = [
+  "inseonging712@gmail.com"
 ];
 
-/* ═══════════════════════════════════════════════════════ */
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+const state = {
+  user: null,
+  isAdmin: false,
+  recommendations: [],
+  loading: true,
+  search: "",
+  status: new Set(),
+  genres: new Set(),
+  tags: new Set(),
+  sort: "recent",
+  bookmarks: new Set(JSON.parse(localStorage.getItem("postype-bookmarks") || "[]")),
+  editingId: null
+};
 
 const STATUS_LABEL = {
   completed: "Completed · 완결",
@@ -672,38 +810,127 @@ const STATUS_LABEL = {
   hiatus: "Hiatus · 휴재"
 };
 
-const state = {
-  search: "",
-  status: new Set(),     // "completed", "ongoing", "hiatus", "bookmarked"
-  genres: new Set(),
-  tags: new Set(),
-  sort: "recent",
-  bookmarks: new Set(JSON.parse(localStorage.getItem("postype-bookmarks") || "[]"))
-};
+onAuthStateChanged(auth, (user) => {
+  state.user = user;
+  state.isAdmin = !!(user && ADMIN_EMAILS.includes(user.email));
+  renderAuth();
+  renderFab();
+  render();
+});
 
-// ━━━ 칩 생성 ━━━
+async function handleLogin() {
+  try {
+    await signInWithPopup(auth, provider);
+    showToast("환영합니다 ♡");
+  } catch (e) {
+    if (e.code !== "auth/popup-closed-by-user") {
+      showToast("로그인 실패: " + e.message);
+    }
+  }
+}
+
+async function handleLogout() {
+  await signOut(auth);
+  showToast("로그아웃 됐어요");
+}
+
+function renderAuth() {
+  const el = document.getElementById("auth-area");
+  if (state.user) {
+    const photo = state.user.photoURL || "";
+    const name = state.user.displayName || state.user.email;
+    el.innerHTML = `
+      <div class="user-badge">
+        ${photo ? `<img src="${escapeAttr(photo)}" alt="">` : ""}
+        <span>${escapeHtml(name)}${state.isAdmin ? '<span class="admin-tag">admin</span>' : ''}</span>
+      </div>
+      <button class="btn" id="logout-btn">로그아웃</button>
+    `;
+    document.getElementById("logout-btn").addEventListener("click", handleLogout);
+  } else {
+    el.innerHTML = `<button class="btn btn-primary" id="login-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+        <polyline points="10 17 15 12 10 7"/>
+        <line x1="15" y1="12" x2="3" y2="12"/>
+      </svg>
+      관리자 로그인
+    </button>`;
+    document.getElementById("login-btn").addEventListener("click", handleLogin);
+  }
+}
+
+function renderFab() {
+  document.getElementById("fab").style.display = state.isAdmin ? "flex" : "none";
+}
+
+const q = query(collection(db, "recommendations"), orderBy("addedAt", "desc"));
+onSnapshot(q, (snap) => {
+  state.recommendations = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  state.loading = false;
+  buildChips();
+  render();
+}, (err) => {
+  console.error(err);
+  state.loading = false;
+  document.getElementById("grid").innerHTML = `
+    <div class="empty-state">
+      <h3>Connection error</h3>
+      <p>데이터를 불러올 수 없어요. Firestore 보안 규칙을 확인해주세요.</p>
+    </div>`;
+});
+
+async function addRecommendation(data) {
+  await addDoc(collection(db, "recommendations"), {
+    ...data,
+    addedAt: serverTimestamp(),
+    createdBy: state.user.email
+  });
+}
+
+async function updateRecommendation(id, data) {
+  await updateDoc(doc(db, "recommendations", id), {
+    ...data,
+    updatedAt: serverTimestamp()
+  });
+}
+
+async function deleteRecommendation(id) {
+  await deleteDoc(doc(db, "recommendations", id));
+}
+
 function buildChips() {
-  // 장르 칩
-  const genres = [...new Set(RECOMMENDATIONS.map(r => r.genre))].sort();
+  const genres = [...new Set(state.recommendations.map(r => r.genre).filter(Boolean))].sort();
   const gc = document.getElementById("genre-chips");
-  gc.innerHTML = genres.map(g => `<button class="chip" data-genre="${g}">${g}</button>`).join("");
+  gc.innerHTML = genres.map(g => `<button class="chip" data-genre="${escapeAttr(g)}">${escapeHtml(g)}</button>`).join("");
 
-  // 태그 칩
   const tagMap = {};
-  RECOMMENDATIONS.forEach(r => r.tags.forEach(t => { tagMap[t] = (tagMap[t] || 0) + 1; }));
+  state.recommendations.forEach(r => (r.tags || []).forEach(t => { tagMap[t] = (tagMap[t] || 0) + 1; }));
   const tags = Object.entries(tagMap).sort((a, b) => b[1] - a[1]).map(([t]) => t);
   const tc = document.getElementById("tag-chips");
-  tc.innerHTML = tags.map(t => `<button class="chip" data-tag="${t}">${t}</button>`).join("");
+  tc.innerHTML = tags.map(t => `<button class="chip" data-tag="${escapeAttr(t)}">${escapeHtml(t)}</button>`).join("");
 
-  // 이벤트 바인딩
+  state.genres.forEach(g => {
+    const c = gc.querySelector(`.chip[data-genre="${CSS.escape(g)}"]`);
+    if (c) c.classList.add("active");
+  });
+  state.tags.forEach(t => {
+    const c = tc.querySelector(`.chip[data-tag="${CSS.escape(t)}"]`);
+    if (c) c.classList.add("active");
+  });
+  state.status.forEach(s => {
+    const c = document.querySelector(`#status-chips .chip[data-status="${s}"]`);
+    if (c) c.classList.add("active");
+  });
+
   document.querySelectorAll("#status-chips .chip").forEach(chip => {
-    chip.addEventListener("click", () => toggleSet(state.status, chip.dataset.status, chip));
+    chip.onclick = () => toggleSet(state.status, chip.dataset.status, chip);
   });
-  document.querySelectorAll("#genre-chips .chip").forEach(chip => {
-    chip.addEventListener("click", () => toggleSet(state.genres, chip.dataset.genre, chip));
+  gc.querySelectorAll(".chip").forEach(chip => {
+    chip.onclick = () => toggleSet(state.genres, chip.dataset.genre, chip);
   });
-  document.querySelectorAll("#tag-chips .chip").forEach(chip => {
-    chip.addEventListener("click", () => toggleSet(state.tags, chip.dataset.tag, chip));
+  tc.querySelectorAll(".chip").forEach(chip => {
+    chip.onclick = () => toggleSet(state.tags, chip.dataset.tag, chip);
   });
 }
 
@@ -713,22 +940,19 @@ function toggleSet(set, value, chip) {
   render();
 }
 
-// ━━━ 필터링 & 정렬 ━━━
 function getFiltered() {
-  let list = RECOMMENDATIONS.slice();
+  let list = state.recommendations.slice();
 
-  // 검색
   if (state.search.trim()) {
-    const q = state.search.trim().toLowerCase();
+    const qu = state.search.trim().toLowerCase();
     list = list.filter(r =>
-      r.title.toLowerCase().includes(q) ||
-      r.author.toLowerCase().includes(q) ||
-      r.tags.some(t => t.toLowerCase().includes(q)) ||
-      r.genre.toLowerCase().includes(q)
+      (r.title || "").toLowerCase().includes(qu) ||
+      (r.author || "").toLowerCase().includes(qu) ||
+      (r.tags || []).some(t => t.toLowerCase().includes(qu)) ||
+      (r.genre || "").toLowerCase().includes(qu)
     );
   }
 
-  // 상태 필터
   if (state.status.size > 0) {
     list = list.filter(r => {
       if (state.status.has("bookmarked") && state.bookmarks.has(r.id)) return true;
@@ -736,38 +960,39 @@ function getFiltered() {
     });
   }
 
-  // 장르 필터
-  if (state.genres.size > 0) {
-    list = list.filter(r => state.genres.has(r.genre));
-  }
+  if (state.genres.size > 0) list = list.filter(r => state.genres.has(r.genre));
+  if (state.tags.size > 0) list = list.filter(r => (r.tags || []).some(t => state.tags.has(t)));
 
-  // 태그 필터 (OR 조건)
-  if (state.tags.size > 0) {
-    list = list.filter(r => r.tags.some(t => state.tags.has(t)));
-  }
-
-  // 정렬
   switch (state.sort) {
-    case "title":
-      list.sort((a, b) => a.title.localeCompare(b.title, "ko"));
-      break;
-    case "author":
-      list.sort((a, b) => a.author.localeCompare(b.author, "ko"));
-      break;
+    case "title": list.sort((a, b) => (a.title || "").localeCompare(b.title || "", "ko")); break;
+    case "author": list.sort((a, b) => (a.author || "").localeCompare(b.author || "", "ko")); break;
     case "recent":
     default:
-      list.sort((a, b) => (b.addedAt || "").localeCompare(a.addedAt || ""));
+      list.sort((a, b) => {
+        const ta = a.addedAt?.toMillis?.() || 0;
+        const tb = b.addedAt?.toMillis?.() || 0;
+        return tb - ta;
+      });
   }
-
   return list;
 }
 
-// ━━━ 렌더링 ━━━
 function render() {
   const list = getFiltered();
   const grid = document.getElementById("grid");
 
-  if (list.length === 0) {
+  if (state.loading) {
+    grid.innerHTML = `<div class="loading-state"><h3>Loading...</h3><p>서재를 여는 중이에요</p></div>`;
+    return;
+  }
+
+  if (state.recommendations.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>Empty shelves.</h3>
+        <p>${state.isAdmin ? '오른쪽 아래 + 버튼을 눌러 첫 추천을 추가해보세요' : '아직 등록된 작품이 없어요'}</p>
+      </div>`;
+  } else if (list.length === 0) {
     grid.innerHTML = `
       <div class="empty-state">
         <h3>Nothing found.</h3>
@@ -775,53 +1000,85 @@ function render() {
       </div>`;
   } else {
     grid.innerHTML = list.map((r, i) => `
-      <article class="card" data-status="${r.status}" style="animation-delay: ${Math.min(i * 40, 400)}ms">
+      <article class="card" data-status="${escapeAttr(r.status || '')}" style="animation-delay: ${Math.min(i * 40, 400)}ms">
         <div class="card-header">
           <h2 class="card-title">
             <a href="${escapeAttr(r.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.title)}</a>
           </h2>
-          <button class="bookmark-btn ${state.bookmarks.has(r.id) ? 'active' : ''}" data-id="${r.id}" aria-label="북마크">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="${state.bookmarks.has(r.id) ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-            </svg>
-          </button>
+          <div class="card-actions">
+            <button class="icon-btn bookmark-btn ${state.bookmarks.has(r.id) ? 'active' : ''}" data-id="${r.id}" aria-label="북마크" title="북마크">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="${state.bookmarks.has(r.id) ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            </button>
+            ${state.isAdmin ? `
+              <button class="icon-btn edit-btn" data-id="${r.id}" aria-label="수정" title="수정">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                </svg>
+              </button>
+              <button class="icon-btn delete-btn" data-id="${r.id}" aria-label="삭제" title="삭제">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/>
+                </svg>
+              </button>
+            ` : ''}
+          </div>
         </div>
-        <div class="card-author">${escapeHtml(r.author)}</div>
-        <div class="card-status">${STATUS_LABEL[r.status] || r.status}</div>
+        <div class="card-author">${escapeHtml(r.author || '')}</div>
+        <div class="card-status">${STATUS_LABEL[r.status] || r.status || ''}</div>
         <div class="card-tags">
-          <span class="tag genre">${escapeHtml(r.genre)}</span>
-          ${r.tags.map(t => `<span class="tag">#${escapeHtml(t)}</span>`).join("")}
+          ${r.genre ? `<span class="tag genre">${escapeHtml(r.genre)}</span>` : ''}
+          ${(r.tags || []).map(t => `<span class="tag">#${escapeHtml(t)}</span>`).join("")}
         </div>
       </article>
     `).join("");
 
-    // 북마크 버튼 이벤트
     grid.querySelectorAll(".bookmark-btn").forEach(btn => {
       btn.addEventListener("click", e => {
-        e.preventDefault();
-        e.stopPropagation();
-        const id = Number(btn.dataset.id);
+        e.preventDefault(); e.stopPropagation();
+        const id = btn.dataset.id;
         if (state.bookmarks.has(id)) state.bookmarks.delete(id);
         else state.bookmarks.add(id);
         localStorage.setItem("postype-bookmarks", JSON.stringify([...state.bookmarks]));
         render();
-        updateStats();
       });
     });
 
-    // 태그 클릭 → 해당 태그 필터
+    grid.querySelectorAll(".edit-btn").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.preventDefault(); e.stopPropagation();
+        openModal(btn.dataset.id);
+      });
+    });
+
+    grid.querySelectorAll(".delete-btn").forEach(btn => {
+      btn.addEventListener("click", async e => {
+        e.preventDefault(); e.stopPropagation();
+        const id = btn.dataset.id;
+        const r = state.recommendations.find(x => x.id === id);
+        if (!confirm(`"${r?.title}" 을(를) 정말 삭제할까요?`)) return;
+        try {
+          await deleteRecommendation(id);
+          showToast("삭제됐어요");
+        } catch (err) {
+          showToast("삭제 실패: " + err.message);
+        }
+      });
+    });
+
     grid.querySelectorAll(".card-tags .tag").forEach(tagEl => {
       tagEl.addEventListener("click", () => {
         const text = tagEl.textContent.replace(/^#/, "");
-        const chip = document.querySelector(`#tag-chips .chip[data-tag="${text}"]`)
-                  || document.querySelector(`#genre-chips .chip[data-genre="${text}"]`);
+        const chip = document.querySelector(`#tag-chips .chip[data-tag="${CSS.escape(text)}"]`)
+                  || document.querySelector(`#genre-chips .chip[data-genre="${CSS.escape(text)}"]`);
         if (chip && !chip.classList.contains("active")) chip.click();
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     });
   }
 
-  // 활성 필터 요약
   const totalFilters = state.status.size + state.genres.size + state.tags.size + (state.search ? 1 : 0);
   const af = document.getElementById("active-filters");
   const rc = document.getElementById("result-count");
@@ -836,12 +1093,82 @@ function render() {
 }
 
 function updateStats() {
-  document.getElementById("stat-total").textContent = RECOMMENDATIONS.length;
-  document.getElementById("stat-completed").textContent = RECOMMENDATIONS.filter(r => r.status === "completed").length;
+  document.getElementById("stat-total").textContent = state.recommendations.length;
+  document.getElementById("stat-completed").textContent = state.recommendations.filter(r => r.status === "completed").length;
   document.getElementById("stat-bookmarked").textContent = state.bookmarks.size;
 }
 
-// ━━━ 이벤트 ━━━
+function openModal(id = null) {
+  state.editingId = id;
+  const modal = document.getElementById("modal-backdrop");
+  const title = document.getElementById("modal-title");
+
+  if (id) {
+    const r = state.recommendations.find(x => x.id === id);
+    if (!r) return;
+    title.textContent = "추천 수정";
+    document.getElementById("f-title").value = r.title || "";
+    document.getElementById("f-author").value = r.author || "";
+    document.getElementById("f-url").value = r.url || "";
+    document.getElementById("f-genre").value = r.genre || "";
+    document.getElementById("f-status").value = r.status || "completed";
+    document.getElementById("f-tags").value = (r.tags || []).join(", ");
+  } else {
+    title.textContent = "새 추천 추가";
+    document.getElementById("rec-form").reset();
+  }
+
+  modal.classList.add("show");
+  setTimeout(() => document.getElementById("f-title").focus(), 100);
+}
+
+function closeModal() {
+  document.getElementById("modal-backdrop").classList.remove("show");
+  state.editingId = null;
+}
+
+document.getElementById("rec-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("submit-btn");
+  btn.disabled = true;
+  btn.textContent = "저장 중...";
+
+  const data = {
+    title: document.getElementById("f-title").value.trim(),
+    author: document.getElementById("f-author").value.trim(),
+    url: document.getElementById("f-url").value.trim(),
+    genre: document.getElementById("f-genre").value.trim(),
+    status: document.getElementById("f-status").value,
+    tags: document.getElementById("f-tags").value.split(",").map(t => t.trim()).filter(Boolean)
+  };
+
+  try {
+    if (state.editingId) {
+      await updateRecommendation(state.editingId, data);
+      showToast("수정됐어요");
+    } else {
+      await addRecommendation(data);
+      showToast("추가됐어요 ♡");
+    }
+    closeModal();
+  } catch (err) {
+    showToast("저장 실패: " + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "저장";
+  }
+});
+
+document.getElementById("cancel-btn").addEventListener("click", closeModal);
+document.getElementById("modal-backdrop").addEventListener("click", (e) => {
+  if (e.target.id === "modal-backdrop") closeModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
+});
+
+document.getElementById("fab").addEventListener("click", () => openModal());
+
 document.getElementById("search").addEventListener("input", e => {
   state.search = e.target.value;
   render();
@@ -862,15 +1189,20 @@ document.getElementById("clear-all").addEventListener("click", () => {
   render();
 });
 
-// ━━━ 유틸 ━━━
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove("show"), 2500);
+}
+
 function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 function escapeAttr(s) { return escapeHtml(s); }
 
-// ━━━ 초기화 ━━━
-buildChips();
-render();
+renderAuth();
 </script>
 
 </body>
