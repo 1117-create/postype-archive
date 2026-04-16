@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서재 · 포스타입 추천 아카이브</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* 모던 파스텔 팔레트 — 아이보리 베이스 + 블러시/세이지/라벤더 액센트 */
+    --bg: #f7f2ec;
+    --bg-soft: #efe7dd;
+    --ink: #2b2724;
+    --ink-soft: #6b6560;
+    --ink-muted: #a39c94;
+    --line: #e3d9cd;
+    --blush: #e8c4c0;
+    --blush-deep: #c98e88;
+    --sage: #b8cab4;
+    --sage-deep: #7d9a7a;
+    --lavender: #c9bfd9;
+    --lavender-deep: #8a7ea8;
+    --butter: #f0d9a8;
+    --butter-deep: #c49a56;
+    --accent: #c98e88;
+
+    --serif: 'Fraunces', 'Gowun Batang', serif;
+    --korean-serif: 'Gowun Batang', 'Fraunces', serif;
+    --sans: 'IBM Plex Sans KR', system-ui, sans-serif;
+
+    --radius: 14px;
+    --radius-sm: 8px;
+    --shadow-soft: 0 1px 2px rgba(43, 39, 36, 0.04), 0 4px 16px rgba(43, 39, 36, 0.04);
+    --shadow-hover: 0 2px 4px rgba(43, 39, 36, 0.06), 0 12px 32px rgba(43, 39, 36, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse at 10% 0%, rgba(232, 196, 192, 0.25) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 10%, rgba(201, 191, 217, 0.2) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(184, 202, 180, 0.18) 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+
+  /* ━━━ HEADER ━━━ */
+  .header {
+    padding: 64px 48px 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 42px;
+    letter-spacing: -0.02em;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .logo-sub {
+    font-family: var(--korean-serif);
+    font-size: 14px;
+    color: var(--ink-soft);
+    letter-spacing: 0.2em;
+    margin-top: 4px;
+    display: block;
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .stats {
+    display: flex;
+    gap: 28px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .stats span strong {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-right: 4px;
+    font-style: italic;
+  }
+
+  .tagline {
+    font-family: var(--korean-serif);
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 520px;
+    line-height: 1.8;
+    border-left: 2px solid var(--blush-deep);
+    padding-left: 20px;
+    margin-top: 12px;
+  }
+
+  /* ━━━ CONTROLS ━━━ */
+  .controls {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+    margin-bottom: 32px;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    flex: 1;
+    min-width: 260px;
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 14px 18px 14px 46px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--ink);
+    transition: all 0.2s;
+  }
+
+  .search-box input:focus {
+    outline: none;
+    border-color: var(--blush-deep);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 3px rgba(232, 196, 192, 0.3);
+  }
+
+  .search-box::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6560' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat center;
+    pointer-events: none;
+  }
+
+  .sort-select {
+    padding: 14px 36px 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232b2724' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  /* 필터 섹션 */
+  .filter-section {
+    margin-bottom: 16px;
+  }
+
+  .filter-label {
+    font-family: var(--serif);
+    font-size: 11px;
+    font-style: italic;
+    color: var(--ink-soft);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .chip-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    padding: 7px 14px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.5);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .chip:hover {
+    border-color: var(--ink-muted);
+    color: var(--ink);
+  }
+
+  .chip.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
+  }
+
+  .chip[data-status="completed"].active { background: var(--sage-deep); border-color: var(--sage-deep); }
+  .chip[data-status="ongoing"].active { background: var(--butter-deep); border-color: var(--butter-deep); }
+  .chip[data-status="hiatus"].active { background: var(--lavender-deep); border-color: var(--lavender-deep); }
+  .chip[data-status="bookmarked"].active { background: var(--blush-deep); border-color: var(--blush-deep); }
+
+  /* 활성 필터 요약 바 */
+  .active-filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px dashed var(--line);
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    flex-wrap: wrap;
+  }
+
+  .active-filters.hidden { display: none; }
+
+  .clear-btn {
+    background: none;
+    border: none;
+    color: var(--blush-deep);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .clear-btn:hover { color: var(--ink); }
+
+  /* ━━━ GRID ━━━ */
+  .grid-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 220px;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--ink-muted);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--line);
+    transition: background 0.3s;
+  }
+
+  .card[data-status="completed"]::before { background: linear-gradient(90deg, var(--sage), var(--sage-deep)); }
+  .card[data-status="ongoing"]::before { background: linear-gradient(90deg, var(--butter), var(--butter-deep)); }
+  .card[data-status="hiatus"]::before { background: linear-gradient(90deg, var(--lavender), var(--lavender-deep)); }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .card-title {
+    font-family: var(--korean-serif);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .card-title a {
+    color: inherit;
+    text-decoration: none;
+    background-image: linear-gradient(var(--blush-deep), var(--blush-deep));
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-size 0.3s;
+    padding-bottom: 2px;
+  }
+
+  .card-title a:hover {
+    background-size: 100% 1px;
+  }
+
+  .bookmark-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: var(--ink-muted);
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .bookmark-btn:hover { color: var(--blush-deep); transform: scale(1.1); }
+
+  .bookmark-btn.active { color: var(--blush-deep); }
+
+  .bookmark-btn svg { display: block; }
+
+  .card-author {
+    font-family: var(--serif);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+
+  .card-author::before {
+    content: 'by ';
+    color: var(--ink-muted);
+  }
+
+  .card-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: -4px;
+  }
+
+  .card-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ink-muted);
+  }
+
+  .card[data-status="completed"] .card-status::before { background: var(--sage-deep); }
+  .card[data-status="ongoing"] .card-status::before { background: var(--butter-deep); }
+  .card[data-status="hiatus"] .card-status::before { background: var(--lavender-deep); }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .tag:hover {
+    border-color: var(--ink-muted);
+    color: var(--ink);
+  }
+
+  .tag.genre {
+    background: rgba(232, 196, 192, 0.3);
+    color: var(--blush-deep);
+  }
+
+  /* ━━━ EMPTY STATE ━━━ */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--ink-soft);
+  }
+
+  .empty-state h3 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .empty-state p {
+    font-family: var(--korean-serif);
+    font-size: 14px;
+  }
+
+  /* ━━━ FOOTER ━━━ */
+  .footer {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 48px 60px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-family: var(--serif);
+    font-style: italic;
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+
+  /* ━━━ ORNAMENT ━━━ */
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 auto 24px;
+    color: var(--blush-deep);
+  }
+
+  .ornament-line {
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  .ornament-star {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+  }
+
+  /* ━━━ FADE IN ANIMATION ━━━ */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card {
+    animation: fadeInUp 0.4s ease-out backwards;
+  }
+
+  /* ━━━ RESPONSIVE ━━━ */
+  @media (max-width: 768px) {
+    .header { padding: 40px 24px 28px; }
+    .controls { padding: 0 24px; }
+    .grid-wrap { padding: 0 24px 60px; }
+    .footer { padding: 32px 24px 40px; }
+    .logo { font-size: 32px; }
+    .stats { gap: 16px; font-size: 11px; }
+    .grid { grid-template-columns: 1fr; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-top">
+    <div>
+      <div class="logo">Bibliothèque<span class="logo-sub">서 재 · 포 스 타 입 아 카 이 브</span></div>
+    </div>
+    <div class="stats">
+      <span><strong id="stat-total">0</strong>편</span>
+      <span><strong id="stat-completed">0</strong>완결</span>
+      <span><strong id="stat-bookmarked">0</strong>찜</span>
+    </div>
+  </div>
+  <p class="tagline">
+    마음에 남은 글들을 차곡차곡 쌓아두는 개인 아카이브.<br>
+    태그와 장르로 기억하고, 언제든 다시 꺼내볼 수 있도록.
+  </p>
+</header>
+
+<section class="controls">
+  <div class="search-row">
+    <div class="search-box">
+      <input type="text" id="search" placeholder="작품명·작가명·태그로 검색...">
+    </div>
+    <select class="sort-select" id="sort">
+      <option value="recent">최근 추가순</option>
+      <option value="title">작품명순 (가나다)</option>
+      <option value="author">작가명순</option>
+    </select>
+  </div>
+
+  <div class="filter-section">
+    <span class="filter-label">◦ Status</span>
+    <div class="chip-group" id="status-chips">
+      <button class="chip" data-status="completed">완결</button>
+      <button class="chip" data-status="ongoing">연재중</button>
+      <button class="chip" data-status="hiatus">휴재</button>
+      <button class="chip" data-status="bookmarked">★ 북마크</button>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <span class="filter-label">◦ Genre</span>
+    <div class="chip-group" id="genre-chips"></div>
+  </div>
+
+  <div class="filter-section">
+    <span class="filter-label">◦ Tags</span>
+    <div class="chip-group" id="tag-chips"></div>
+  </div>
+
+  <div class="active-filters hidden" id="active-filters">
+    <span id="result-count"></span>
+    <button class="clear-btn" id="clear-all">전체 해제</button>
+  </div>
+</section>
+
+<main class="grid-wrap">
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer class="footer">
+  <div class="ornament">
+    <span class="ornament-line"></span>
+    <span class="ornament-star">❦</span>
+    <span class="ornament-line"></span>
+  </div>
+  curated with care &nbsp;·&nbsp; 2026
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   ▣ 추천 데이터 — 여기를 수정하면 사이트에 바로 반영됩니다
+   ═══════════════════════════════════════════════════════
+
+   각 항목 필드:
+   - id:       고유 번호 (중복 X)
+   - title:    작품명
+   - author:   작가명
+   - url:      포스타입 링크
+   - genre:    주요 장르 (하나)
+   - tags:     자유 태그 (배열)
+   - status:   "completed" | "ongoing" | "hiatus"
+   - addedAt:  추가한 날짜 (YYYY-MM-DD) — 정렬용
+*/
+const RECOMMENDATIONS = [
+  {
+    id: 1,
+    title: "샘플 작품 제목 1",
+    author: "작가A",
+    url: "https://www.postype.com/",
+    genre: "BL",
+    tags: ["오피스", "옴버", "먼저반한", "대형견공"],
+    status: "completed",
+    addedAt: "2026-04-10"
+  },
+  {
+    id: 2,
+    title: "샘플 작품 제목 2 — 긴 제목의 예시입니다",
+    author: "작가B",
+    url: "https://www.postype.com/",
+    genre: "BL",
+    tags: ["판타지", "알파×오메가", "임신"],
+    status: "ongoing",
+    addedAt: "2026-04-08"
+  },
+  {
+    id: 3,
+    title: "샘플 작품 제목 3",
+    author: "작가C",
+    url: "https://www.postype.com/",
+    genre: "BL",
+    tags: ["현판", "회귀", "집착공"],
+    status: "ongoing",
+    addedAt: "2026-03-28"
+  },
+  {
+    id: 4,
+    title: "샘플 작품 제목 4",
+    author: "작가D",
+    url: "https://www.postype.com/",
+    genre: "GL",
+    tags: ["학원물", "첫사랑"],
+    status: "completed",
+    addedAt: "2026-03-15"
+  },
+  {
+    id: 5,
+    title: "샘플 작품 제목 5",
+    author: "작가E",
+    url: "https://www.postype.com/",
+    genre: "BL",
+    tags: ["시대물", "조선", "느림"],
+    status: "hiatus",
+    addedAt: "2026-02-20"
+  },
+  {
+    id: 6,
+    title: "샘플 작품 제목 6",
+    author: "작가F",
+    url: "https://www.postype.com/",
+    genre: "일반",
+    tags: ["에세이", "일상"],
+    status: "ongoing",
+    addedAt: "2026-02-01"
+  }
+];
+
+/* ═══════════════════════════════════════════════════════ */
+
+const STATUS_LABEL = {
+  completed: "Completed · 완결",
+  ongoing: "Ongoing · 연재중",
+  hiatus: "Hiatus · 휴재"
+};
+
+const state = {
+  search: "",
+  status: new Set(),     // "completed", "ongoing", "hiatus", "bookmarked"
+  genres: new Set(),
+  tags: new Set(),
+  sort: "recent",
+  bookmarks: new Set(JSON.parse(localStorage.getItem("postype-bookmarks") || "[]"))
+};
+
+// ━━━ 칩 생성 ━━━
+function buildChips() {
+  // 장르 칩
+  const genres = [...new Set(RECOMMENDATIONS.map(r => r.genre))].sort();
+  const gc = document.getElementById("genre-chips");
+  gc.innerHTML = genres.map(g => `<button class="chip" data-genre="${g}">${g}</button>`).join("");
+
+  // 태그 칩
+  const tagMap = {};
+  RECOMMENDATIONS.forEach(r => r.tags.forEach(t => { tagMap[t] = (tagMap[t] || 0) + 1; }));
+  const tags = Object.entries(tagMap).sort((a, b) => b[1] - a[1]).map(([t]) => t);
+  const tc = document.getElementById("tag-chips");
+  tc.innerHTML = tags.map(t => `<button class="chip" data-tag="${t}">${t}</button>`).join("");
+
+  // 이벤트 바인딩
+  document.querySelectorAll("#status-chips .chip").forEach(chip => {
+    chip.addEventListener("click", () => toggleSet(state.status, chip.dataset.status, chip));
+  });
+  document.querySelectorAll("#genre-chips .chip").forEach(chip => {
+    chip.addEventListener("click", () => toggleSet(state.genres, chip.dataset.genre, chip));
+  });
+  document.querySelectorAll("#tag-chips .chip").forEach(chip => {
+    chip.addEventListener("click", () => toggleSet(state.tags, chip.dataset.tag, chip));
+  });
+}
+
+function toggleSet(set, value, chip) {
+  if (set.has(value)) { set.delete(value); chip.classList.remove("active"); }
+  else { set.add(value); chip.classList.add("active"); }
+  render();
+}
+
+// ━━━ 필터링 & 정렬 ━━━
+function getFiltered() {
+  let list = RECOMMENDATIONS.slice();
+
+  // 검색
+  if (state.search.trim()) {
+    const q = state.search.trim().toLowerCase();
+    list = list.filter(r =>
+      r.title.toLowerCase().includes(q) ||
+      r.author.toLowerCase().includes(q) ||
+      r.tags.some(t => t.toLowerCase().includes(q)) ||
+      r.genre.toLowerCase().includes(q)
+    );
+  }
+
+  // 상태 필터
+  if (state.status.size > 0) {
+    list = list.filter(r => {
+      if (state.status.has("bookmarked") && state.bookmarks.has(r.id)) return true;
+      return state.status.has(r.status);
+    });
+  }
+
+  // 장르 필터
+  if (state.genres.size > 0) {
+    list = list.filter(r => state.genres.has(r.genre));
+  }
+
+  // 태그 필터 (OR 조건)
+  if (state.tags.size > 0) {
+    list = list.filter(r => r.tags.some(t => state.tags.has(t)));
+  }
+
+  // 정렬
+  switch (state.sort) {
+    case "title":
+      list.sort((a, b) => a.title.localeCompare(b.title, "ko"));
+      break;
+    case "author":
+      list.sort((a, b) => a.author.localeCompare(b.author, "ko"));
+      break;
+    case "recent":
+    default:
+      list.sort((a, b) => (b.addedAt || "").localeCompare(a.addedAt || ""));
+  }
+
+  return list;
+}
+
+// ━━━ 렌더링 ━━━
+function render() {
+  const list = getFiltered();
+  const grid = document.getElementById("grid");
+
+  if (list.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <h3>Nothing found.</h3>
+        <p>다른 조건으로 찾아보시겠어요?</p>
+      </div>`;
+  } else {
+    grid.innerHTML = list.map((r, i) => `
+      <article class="card" data-status="${r.status}" style="animation-delay: ${Math.min(i * 40, 400)}ms">
+        <div class="card-header">
+          <h2 class="card-title">
+            <a href="${escapeAttr(r.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.title)}</a>
+          </h2>
+          <button class="bookmark-btn ${state.bookmarks.has(r.id) ? 'active' : ''}" data-id="${r.id}" aria-label="북마크">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="${state.bookmarks.has(r.id) ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="card-author">${escapeHtml(r.author)}</div>
+        <div class="card-status">${STATUS_LABEL[r.status] || r.status}</div>
+        <div class="card-tags">
+          <span class="tag genre">${escapeHtml(r.genre)}</span>
+          ${r.tags.map(t => `<span class="tag">#${escapeHtml(t)}</span>`).join("")}
+        </div>
+      </article>
+    `).join("");
+
+    // 북마크 버튼 이벤트
+    grid.querySelectorAll(".bookmark-btn").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = Number(btn.dataset.id);
+        if (state.bookmarks.has(id)) state.bookmarks.delete(id);
+        else state.bookmarks.add(id);
+        localStorage.setItem("postype-bookmarks", JSON.stringify([...state.bookmarks]));
+        render();
+        updateStats();
+      });
+    });
+
+    // 태그 클릭 → 해당 태그 필터
+    grid.querySelectorAll(".card-tags .tag").forEach(tagEl => {
+      tagEl.addEventListener("click", () => {
+        const text = tagEl.textContent.replace(/^#/, "");
+        const chip = document.querySelector(`#tag-chips .chip[data-tag="${text}"]`)
+                  || document.querySelector(`#genre-chips .chip[data-genre="${text}"]`);
+        if (chip && !chip.classList.contains("active")) chip.click();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+
+  // 활성 필터 요약
+  const totalFilters = state.status.size + state.genres.size + state.tags.size + (state.search ? 1 : 0);
+  const af = document.getElementById("active-filters");
+  const rc = document.getElementById("result-count");
+  if (totalFilters > 0) {
+    af.classList.remove("hidden");
+    rc.textContent = `${list.length}편의 결과 · ${totalFilters}개 필터 적용 중`;
+  } else {
+    af.classList.add("hidden");
+  }
+
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById("stat-total").textContent = RECOMMENDATIONS.length;
+  document.getElementById("stat-completed").textContent = RECOMMENDATIONS.filter(r => r.status === "completed").length;
+  document.getElementById("stat-bookmarked").textContent = state.bookmarks.size;
+}
+
+// ━━━ 이벤트 ━━━
+document.getElementById("search").addEventListener("input", e => {
+  state.search = e.target.value;
+  render();
+});
+
+document.getElementById("sort").addEventListener("change", e => {
+  state.sort = e.target.value;
+  render();
+});
+
+document.getElementById("clear-all").addEventListener("click", () => {
+  state.search = "";
+  state.status.clear();
+  state.genres.clear();
+  state.tags.clear();
+  document.getElementById("search").value = "";
+  document.querySelectorAll(".chip.active").forEach(c => c.classList.remove("active"));
+  render();
+});
+
+// ━━━ 유틸 ━━━
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function escapeAttr(s) { return escapeHtml(s); }
+
+// ━━━ 초기화 ━━━
+buildChips();
+render();
+</script>
+
+</body>
+</html>
